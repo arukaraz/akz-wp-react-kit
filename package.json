@@ -1,0 +1,64 @@
+{
+	"name": "akz-wp-react-kit",
+	"version": "1.0.0",
+	"description": "A starter template to build React-powered WordPress plugins.",
+	"author": "@arukaraz",
+	"main": "build/index.js",
+	"scripts": {
+    "build:admin": "wp-scripts build src/admin.js --output-path=build/admin",
+    "build:public": "wp-scripts build src/public.js --output-path=build/public",
+    "build": "npm-run-all build:admin build:public",
+    "start:admin": "wp-scripts start src/admin.tsx --webpack-src-dir=src/admin --output-path=build/admin",
+    "start:public": "wp-scripts start src/public.js --output-path=build/public",
+    "start": "npm-run-all --parallel start:admin start:public",
+    "packages-update": "wp-scripts packages-update",
+		"initial-rename": "node .bin/initial-rename.js",
+    "copy": "node .bin/copy.js",
+    "minify-js": "uglifyjs build/**/*.js -o build/app.min.js",
+    "minify-css": "cssnano build/**/*.css -o build/app.min.css",
+    "clean-deploy": "rm -rf ./deploy && mkdir deploy",
+    "prepare-deploy": "cp -r admin build includes languages public index.php akz-wp-react-kit.php uninstall.php deploy/",
+    "deploy": "npm run clean-deploy && npm run build && npm run prepare-deploy"
+  },
+	"devDependencies": {
+		"@tanstack/eslint-plugin-query": "^5.56.1",
+		"@typescript-eslint/eslint-plugin": "^6.5.1",
+		"@typescript-eslint/parser": "^6.5.1",
+		"@wordpress/scripts": "^30.0.2",
+		"autoprefixer": "^10.4.7",
+		"cssnano": "^5.1.15",
+		"eslint": "^8.50.0",
+		"eslint-plugin-jsx-a11y": "^6.7.1",
+		"eslint-plugin-react": "^7.32.2",
+		"eslint-plugin-react-hooks": "^4.6.0",
+		"ncp": "^2.0.0",
+		"npm-run-all": "^4.1.5",
+		"replace-in-file": "^7.2.0",
+		"uglify-js": "^3.14.0"
+	},
+	"dependencies": {
+		"@emotion/react": "^11.13.3",
+		"@emotion/styled": "^11.13.0",
+		"@mui/icons-material": "^6.0.2",
+		"@mui/material": "^6.0.2",
+		"@mui/x-data-grid": "^7.16.0",
+		"@tanstack/react-query": "^5.56.2",
+		"@wordpress/api-fetch": "^7.7.0",
+		"@wordpress/components": "^27.5.0",
+		"@wordpress/url": "^4.1.0",
+		"immutable": "^4.3.7",
+		"lodash": "^4.17.21",
+		"mui-color-input": "^4.0.1",
+		"prop-types": "^15.8.1",
+		"react-router-dom": "^6.26.2",
+		"react-stacked-toast": "^1.1.0"
+	},
+	"peerDependencies": {
+		"react": "^17.0.0 || ^18.0.0",
+		"react-dom": "^17.0.0 || ^18.0.0"
+	},
+	"browserslist": [
+		"last 3 versions",
+		"> 1%"
+	]
+}

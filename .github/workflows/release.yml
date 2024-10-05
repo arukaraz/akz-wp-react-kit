@@ -1,0 +1,58 @@
+name: Release a new version
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.head_ref }}
+        fetch-depth: 0
+        fetch-tags: true
+
+    - name: Setting up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Installing Dependencies
+      run: npm install
+
+    - name: Deploying
+      run: npm run deploy
+
+    - name: Determining Version
+      id: version
+      uses: codacy/git-version@2.8.0
+      with:
+        release-branch: main
+        minor-identifier: "feat:"
+        prefix: v
+    
+    - name: Extract Stable Version
+      id: extract-version
+      run: |
+        stable_version=$(echo "${{ steps.version.outputs.version }}" | awk -F- '{print $1}')
+        echo "stable-version=${stable_version}" >> $GITHUB_OUTPUT
+
+    - name: Compressing deployment files
+      run: zip -r your-amazing-plugin-name-${{ steps.extract-version.outputs.stable-version }}.zip deploy/
+
+    - name: Creating the release
+      uses: softprops/action-gh-release@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        files: your-amazing-plugin-name-${{ steps.extract-version.outputs.stable-version }}.zip
+        tag_name: ${{ steps.extract-version.outputs.stable-version }}
+        name: "Release ${{ steps.extract-version.outputs.stable-version }}"
+        draft: false
+        prerelease: false
