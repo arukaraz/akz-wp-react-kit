@@ -29,6 +29,11 @@ A starter template to build React-powered WordPress plugins.
   Or download and upload the plugin files to /wp-content/plugins/akz-wp-react-kit.
 
 - Rename the folder name `akz-wp-react-kit` to your plugin folder.
+- Install dependencies
+
+ ```sh
+  npm install
+  ```
 
 
 ### 2. Renaming the Plugin
