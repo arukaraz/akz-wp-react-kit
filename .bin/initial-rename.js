@@ -5,7 +5,7 @@ const fs = require('fs');
 const { promisify } = require('util');
 const renameAsync = promisify(fs.rename);
 
-const filePath = path.join(process.cwd(), '**/*.{js,php}');
+const filePath = path.join(process.cwd(), '**/*.{js,php,ts,tsx}');
 
 const files = glob.sync(filePath, {
     ignore: ['**/node_modules/**'],
