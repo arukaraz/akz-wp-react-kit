@@ -1,12 +1,12 @@
-<?php //phpcs:ignore
+<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName -- API loader file
+
+declare(strict_types=1);
+
 /**
- * Includes necessary files
- *
  * @package Akz_Wp_React_Kit
  * @since 1.0.0
  */
 
-// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }

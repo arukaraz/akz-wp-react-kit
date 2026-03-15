@@ -1,73 +1,38 @@
-<?php // phpcs:ignore Class file names should be based on the class name with "class-" prepended.
-// Exit if accessed directly.
-if (! defined('ABSPATH')) {
+<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName -- Legacy naming convention
+
+declare(strict_types=1);
+
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 /**
- * The admin-specific functionality of the plugin.
- *
- 
- * @since      1.0.0
+ * Admin-specific functionality.
  *
  * @package    Akz_Wp_React_Kit
  * @subpackage Akz_Wp_React_Kit/admin
  */
-
-/**
- * The admin-specific functionality of the plugin.
- *
- * Defines the plugin name, version, and two examples hooks for how to
- * enqueue the admin-specific stylesheet and JavaScript.
- *
- * @package    Akz_Wp_React_Kit
- * @subpackage Akz_Wp_React_Kit/admin
- */
-class Akz_Wp_React_Kit_Admin
-{
+class Akz_Wp_React_Kit_Admin {
 
 	/**
-	 * Menu info.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      array    $menu_info    Admin menu information.
+	 * @var array<string, mixed> $menu_info
 	 */
-	private $menu_info;
+	private array $menu_info = array();
 
 	/**
-	 * Gets an instance of this object.
-	 * Prevents duplicate instances which avoid artifacts and improves performance.
-	 *
-	 * @static
-	 * @access public
-	 * @return object
-	 * @since 1.0.0
+	 * @return static
 	 */
-	public static function get_instance()
-	{
-		// Store the instance locally to avoid private static replication.
+	public static function get_instance(): static {
 		static $instance = null;
 
-		// Only run these methods if they haven't been ran previously.
-		if (null === $instance) {
-			$instance = new self();
+		if ( null === $instance ) {
+			$instance = new static();
 		}
 
-		// Always return the instance.
 		return $instance;
 	}
 
-	/**
-	 * Add Admin Page Menu page.
-	 *
-	 * @access public
-	 *
-	 * @since    1.0.0
-	 */
-	public function add_admin_menu()
-	{
-
+	public function add_admin_menu(): void {
 		$white_label     = akz_wp_react_kit_include()->get_white_label();
 		$this->menu_info = $white_label['admin_menu_page'];
 
@@ -76,94 +41,73 @@ class Akz_Wp_React_Kit_Admin
 			$this->menu_info['menu_title'],
 			'manage_options',
 			$this->menu_info['menu_slug'],
-			array($this, 'add_setting_root_div'),
+			array( $this, 'add_setting_root_div' ),
 			'dashicons-admin-plugins',
 			$this->menu_info['position'],
 		);
 	}
 
-	/**
-	 * Add Root Div For React.
-	 *
-	 * @access public
-	 *
-	 * @since    1.0.0
-	 */
-	public function add_setting_root_div()
-	{
-		echo '<div id="' . esc_attr(AKZ_WP_REACT_KIT_PLUGIN_NAME) . '"></div>';
+	public function add_setting_root_div(): void {
+		echo '<div id="' . esc_attr( AKZ_WP_REACT_KIT_PLUGIN_NAME ) . '"></div>';
 	}
 
-	/**
-	 * Register the CSS/JavaScript Resources for the admin area.
-	 *
-	 * @access public
-	 * Use Condition to Load it Only When it is Necessary
-	 *
-	 * @since    1.0.0
-	 */
-	public function enqueue_resources()
-	{
-
+	public function enqueue_resources(): void {
 		$screen              = get_current_screen();
-		$admin_scripts_bases = array('toplevel_page_' . AKZ_WP_REACT_KIT_PLUGIN_NAME);
-		if (! (isset($screen->base) && in_array($screen->base, $admin_scripts_bases, true))) {
+		$admin_scripts_bases = array( 'toplevel_page_' . AKZ_WP_REACT_KIT_PLUGIN_NAME );
+		if ( ! ( isset( $screen->base ) && in_array( $screen->base, $admin_scripts_bases, true ) ) ) {
 			return;
 		}
 
-		/*Scripts dependency files*/
-		$deps_file = AKZ_WP_REACT_KIT_PATH . 'build/admin/admin.asset.php';
-
-		/*Fallback dependency array*/
+		$deps_file  = AKZ_WP_REACT_KIT_PATH . 'build/admin.asset.php';
 		$dependency = array();
 		$version    = AKZ_WP_REACT_KIT_VERSION;
 
-		/*Set dependency and version*/
-		if (file_exists($deps_file)) {
+		if ( file_exists( $deps_file ) ) {
 			$deps_file  = require $deps_file;
 			$dependency = $deps_file['dependencies'];
 			$version    = $deps_file['version'];
 		}
 
-		wp_enqueue_script(AKZ_WP_REACT_KIT_PLUGIN_NAME, AKZ_WP_REACT_KIT_URL . 'build/admin/admin.js', $dependency, $version, true);
-		wp_enqueue_style(AKZ_WP_REACT_KIT_PLUGIN_NAME, AKZ_WP_REACT_KIT_URL . 'build/admin/admin.css', array('wp-components'), $version);
+		wp_enqueue_script( AKZ_WP_REACT_KIT_PLUGIN_NAME, AKZ_WP_REACT_KIT_URL . 'build/admin.js', $dependency, $version, true );
+		wp_enqueue_style( AKZ_WP_REACT_KIT_PLUGIN_NAME, AKZ_WP_REACT_KIT_URL . 'build/admin.css', array( 'wp-components' ), $version );
 
-		/* Localize */
 		$localize = apply_filters(
 			'akz_wp_react_kit_admin_localize',
 			array(
-				'version'     => $version,
-				'root_id'     => AKZ_WP_REACT_KIT_PLUGIN_NAME,
-				'nonce'       => wp_create_nonce('wp_rest'),
+				'version'          => $version,
+				'root_id'          => AKZ_WP_REACT_KIT_PLUGIN_NAME,
+				'nonce'            => wp_create_nonce( 'wp_rest' ),
 				'plugin_page_name' => AKZ_WP_REACT_KIT_PLUGIN_NAME,
-				'rest_url'    => get_rest_url(),
-				'white_label' => akz_wp_react_kit_include()->get_white_label(),
+				'rest_url'         => get_rest_url(),
+				'white_label'      => akz_wp_react_kit_include()->get_white_label(),
 			)
 		);
 
-		wp_set_script_translations(AKZ_WP_REACT_KIT_PLUGIN_NAME, AKZ_WP_REACT_KIT_PLUGIN_NAME);
-		wp_localize_script(AKZ_WP_REACT_KIT_PLUGIN_NAME, 'AkzWpReactKitLocalize', $localize);
+		wp_set_script_translations( AKZ_WP_REACT_KIT_PLUGIN_NAME, AKZ_WP_REACT_KIT_PLUGIN_NAME );
+		wp_add_inline_script(
+			AKZ_WP_REACT_KIT_PLUGIN_NAME,
+			sprintf(
+				"var AkzWpReactKitLocalize = JSON.parse( decodeURIComponent( '%s' ) );",
+				rawurlencode( (string) wp_json_encode( $localize ) )
+			),
+			'before'
+		);
 	}
 
 	/**
-	 * Get settings schema
-	 * Schema: http://json-schema.org/draft-04/schema#
-	 *
-	 * Add your own settings fields here
-	 *
-	 * @access public
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return array settings schema for this plugin.
+	 * @return array<string, mixed>
 	 */
-	public function get_settings_schema()
-	{
+	public function get_settings_schema(): array {
 		$setting_properties = apply_filters(
 			'akz_wp_react_kit_options_properties',
 			array(
-				'sample-setting'  => array(
-					'type' => 'string',
+				'sample-setting' => array(
+					'type'    => 'string',
+					'default' => '',
+				),
+				'deleteAll'      => array(
+					'type'    => 'boolean',
+					'default' => false,
 				),
 			),
 		);
@@ -174,16 +118,7 @@ class Akz_Wp_React_Kit_Admin
 		);
 	}
 
-	/**
-	 * Register settings.
-	 * Common callback function of rest_api_init and admin_init
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return void
-	 */
-	public function register_settings()
-	{
+	public function register_settings(): void {
 		$defaults = akz_wp_react_kit_default_options();
 
 		register_setting(
@@ -200,16 +135,12 @@ class Akz_Wp_React_Kit_Admin
 	}
 }
 
-if (! function_exists('akz_wp_react_kit_admin')) {
+if ( ! function_exists( 'akz_wp_react_kit_admin' ) ) {
 	/**
-	 * Return instance of  Akz_Wp_React_Kit_Admin class
-	 *
 	 * @since 1.0.0
-	 *
 	 * @return Akz_Wp_React_Kit_Admin
 	 */
-	function akz_wp_react_kit_admin()
-	{ //phpcs:ignore
+	function akz_wp_react_kit_admin(): Akz_Wp_React_Kit_Admin { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid -- Prefixed helper
 		return Akz_Wp_React_Kit_Admin::get_instance();
 	}
 }

@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { PreferencesContextProvider } from './PreferencesContext';
 
-const combineProviders = (...providers) => ({ children }) =>
-  providers.reduceRight(
-    (acc, Provider) => <Provider>{acc}</Provider>,
-    children
-  );
+type ProviderComponent = React.ComponentType<{ children: ReactNode }>;
+
+const combineProviders = (...providers: ProviderComponent[]) =>
+  ({ children }: { children: ReactNode }) =>
+    providers.reduceRight(
+      (acc, Provider) => <Provider>{acc}</Provider>,
+      children
+    );
 
 const CombinedProvider = combineProviders(
   PreferencesContextProvider,
-  // add your providers here
 );
 
-export default function ContextProvider({ children }) {
+export default function ContextProvider({ children }: { children: ReactNode }) {
   return <CombinedProvider>{children}</CombinedProvider>;
 }

@@ -1,5 +1,6 @@
+import { SxProps, Theme } from '@mui/material';
 
-export const inputStyle = { "& .MuiInputBase-input": {
+export const inputStyle: SxProps<Theme> = { "& .MuiInputBase-input": {
   font: 'inherit',
   letterSpacing: 'inherit',
   color: 'currentColor',

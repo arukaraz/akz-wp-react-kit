@@ -1,5 +1,3 @@
-import React from "react";
-
 import { __ } from '@wordpress/i18n';
 import { Outlet } from "react-router-dom";
 import toast, { Toaster } from 'react-stacked-toast'

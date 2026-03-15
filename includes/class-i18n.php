@@ -1,39 +1,28 @@
-<?php // phpcs:ignore Class file names should be based on the class name with "class-" prepended.
-// Exit if accessed directly.
+<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName -- Legacy naming convention
+
+declare(strict_types=1);
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-/**
- * Define the internationalization functionality
- *
- * Loads and defines the internationalization files for this plugin
- * so that it is ready for translation.
- *
-
- * @since      1.0.0
- *
- * @package    Akz_Wp_React_Kit
- * @subpackage Akz_Wp_React_Kit/includes
- */
 
 /**
- * Define the internationalization functionality.
- *
- * Loads and defines the internationalization files for this plugin
- * so that it is ready for translation.
+ * Internationalization functionality.
  *
  * @since      1.0.0
  * @package    Akz_Wp_React_Kit
  * @subpackage Akz_Wp_React_Kit/includes
- * @author     @arukaraz 
  */
 class Akz_Wp_React_Kit_I18n {
 
 	/**
-	 * Load the plugin text domain for translation.
-	 *
 	 * @since    1.0.0
 	 */
-	public function load_plugin_textdomain() {
+	public function load_plugin_textdomain(): void {
+		load_plugin_textdomain(
+			'akz-wp-react-kit',
+			false,
+			dirname( plugin_basename( __FILE__ ), 2 ) . '/languages/'
+		);
 	}
 }

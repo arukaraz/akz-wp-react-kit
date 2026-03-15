@@ -1,14 +1,14 @@
-import {__} from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 import toast from 'react-stacked-toast';
-import apiFetch from '@wordpress/api-fetch'
-import { useMutation } from '@tanstack/react-query';
+import apiFetch from '@wordpress/api-fetch';
+import { useMutation, UseMutationResult } from '@tanstack/react-query';
 
+import { PluginSettings } from '../../../types/settings';
 import { API_BASEURL } from '../../../utils/constants/general';
 
-export default function usePluginSettingsMutation() {
-
+export default function usePluginSettingsMutation(): UseMutationResult<PluginSettings, Error, PluginSettings> {
   return useMutation({
-    mutationFn: (payload: object) => apiFetch({
+    mutationFn: (payload: PluginSettings) => apiFetch<PluginSettings>({
       path: `${API_BASEURL}/settings`,
       method: 'POST',
       data: payload,
@@ -27,5 +27,5 @@ export default function usePluginSettingsMutation() {
         type: "error"
       });
     }
-  })
-};
+  });
+}

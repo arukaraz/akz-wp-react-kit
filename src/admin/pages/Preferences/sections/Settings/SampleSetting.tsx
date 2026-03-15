@@ -14,11 +14,11 @@ import { usePreferencesContext } from "../../../../../modules/context/Preference
 
 const SampleSetting = ({size = '100%'}: {size?: string}) => {
   const { updatePreference, preferences } = usePreferencesContext();
-  const value = preferences.getIn(['sample-setting']) as any;
+  const value = preferences['sample-setting'] ?? '';
 
-  const handleSettingChange = (e) => {
-    updatePreference(['sample-setting'], e.target.value);
-  }
+  const handleSettingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updatePreference('sample-setting', e.target.value);
+  };
 
   const Action = () => (
     <FormControlLabel
@@ -37,12 +37,10 @@ const SampleSetting = ({size = '100%'}: {size?: string}) => {
       action={<Action />}
       icon={<SettingIcon color="action" />}
       sx={{ flexBasis: size, minWidth: size }}
-      p={2}
     >
       <Stack flexDirection="row">
         <TextField
           required
-          // disabled={}
           label={__('Sample setting')}
           autoComplete="off"
           variant="filled"
@@ -53,7 +51,7 @@ const SampleSetting = ({size = '100%'}: {size?: string}) => {
         />
       </Stack>
     </Setting>
-  )
+  );
 };
 
 export default SampleSetting;

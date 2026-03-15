@@ -1,8 +1,4 @@
-/* React */
-import * as React from 'react';
-/* WordPress */
 import { __ } from '@wordpress/i18n';
-/* MUI */
 import List from '@mui/material/List';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -11,22 +7,21 @@ import ListSubheader from '@mui/material/ListSubheader';
 import ListItemButton from '@mui/material/ListItemButton';
 import DescriptionIcon from '@mui/icons-material/Description';
 
-
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import routes from '../../../routes';
 
 const Sidebar = () => {
-    const { pathname: currentPath, search } = useLocation()
+    const { pathname: currentPath, search } = useLocation();
     const navigate = useNavigate();
     const currentSearchParams = search;
 
-    const handleNavigate = (newValue) => {
+    const handleNavigate = (newValue: string) => {
         navigate(`${newValue}${currentSearchParams}`);
-    }
+    };
 
     const preferencesRoutes = routes.find(route => route.path === '/preferences');
-    
+
     return (
         <List
             sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
@@ -35,6 +30,7 @@ const Sidebar = () => {
         >
             {preferencesRoutes ? preferencesRoutes?.children?.map(route => (
                 <ListItemButton
+                    key={route.path}
                     onClick={() => handleNavigate(route.path)}
                     selected={currentPath === route.path}
                 >

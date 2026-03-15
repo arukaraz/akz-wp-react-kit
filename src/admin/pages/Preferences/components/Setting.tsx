@@ -1,19 +1,15 @@
+import { Card, CardHeader, CardContent, CardProps } from "@mui/material";
+import { ReactNode } from "react";
 
-import { Card, CardHeader, CardContent } from "@mui/material";
-import React, { ReactNode } from "react";
-
-interface SettingProps {
+interface SettingProps extends CardProps {
     title?: string;
     description?: string;
     icon?: ReactNode;
     action?: ReactNode;
     children: ReactNode;
-    [key: string]: any;
 }
 
-
-const Setting: React.FC<SettingProps> = ({ title, description, icon, action, children, ...rest }) => {
-
+const Setting = ({ title, description, icon, action, children, ...rest }: SettingProps) => {
     return (
         <Card {...rest}>
             <CardHeader

@@ -1,6 +1,4 @@
-/* React */
 import React from 'react';
-/* MUI */
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
@@ -10,26 +8,22 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import ExtensionIcon from '@mui/icons-material/Extension';
 
-/* WordPress */
-import {__} from "@wordpress/i18n";
+import { __ } from "@wordpress/i18n";
 
-/* Misc */
-import { useLocation, useNavigate, } from "react-router-dom";
-
+import { useLocation, useNavigate } from "react-router-dom";
 
 import routes from '../../routes';
 import { PLUGIN_FRIENDLY_NAME } from '../../../utils/constants/general';
 import { isParentOrExactPath } from '../../../utils/isParentOrExactPath';
 
 const Navigation = () => {
-    const {pathname: currentPath, search} = useLocation()
+    const { pathname: currentPath, search } = useLocation();
     const navigate = useNavigate();
     const currentSearchParams = search;
 
-    const handleNavigate = (_, newValue) => {
+    const handleNavigate = (_: React.SyntheticEvent, newValue: string) => {
         navigate(`${newValue}${currentSearchParams}`);
-    }
-
+    };
 
   return (
     <AppBar position="static">
@@ -72,7 +66,7 @@ const Navigation = () => {
                 </Toolbar>
             </Container>
         </AppBar>
-  )
-}
+  );
+};
 
 export default Navigation;

@@ -1,37 +1,28 @@
-/* React */
-import * as React from 'react';
-/* WordPress */
 import { __ } from '@wordpress/i18n';
-/* MUI */
 import Stack from "@mui/material/Stack";
-/* Library */
 import { Outlet } from "react-router-dom";
-import toast from 'react-stacked-toast';
 
-/*Inbuilt*/
 import Card from "@mui/material/Card";
-import Box from '@mui/material/Box/Box';
+import Box from '@mui/material/Box';
 import Button from "@mui/material/Button";
 import SaveIcon from "@mui/icons-material/Save";
 import CardHeader from "@mui/material/CardHeader";
-import CardContent from '@mui/material/CardContent/CardContent';
-import CircularProgress from '@mui/material/CircularProgress/CircularProgress';
+import CardContent from '@mui/material/CardContent';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import Sidebar from "./components/Sidebar";
 import { usePreferencesContext } from '../../../modules/context/PreferencesContext';
 import usePluginSettingsQuery from '../../../hooks/api/queries/usePluginSettingsQuery';
 import usePluginSettingsMutation from '../../../hooks/api/mutations/usePluginSettingsMutation';
 
-
 const Settings = () => {
-    const { savePreferences, preferences, canSave } = usePreferencesContext();
+    const { savePreferences, canSave } = usePreferencesContext();
     const { isFetching } = usePluginSettingsQuery();
     const { isPending } = usePluginSettingsMutation();
 
     const handleSave = () => {
-        // add needed validations
         savePreferences();
-    }
+    };
 
     return (
         <Stack flexDirection="row">
@@ -45,7 +36,7 @@ const Settings = () => {
                         variant="contained"
                         startIcon={<SaveIcon />}
                     >
-                        Save
+                        {__('Save')}
                     </Button>
                     {isPending && (
                         <CircularProgress

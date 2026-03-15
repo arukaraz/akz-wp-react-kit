@@ -19,6 +19,9 @@ const excludedFiles = [
 	'js.pot',
 	'translation-js.php',
 	'info.md',
+	'tsconfig.json',
+	'.github',
+	'.eslintrc.js',
 ];
 console.log('Excludes files and folder:');
 const filterFunction = (file) => {

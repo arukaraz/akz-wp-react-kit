@@ -5,10 +5,10 @@ const fs = require('fs');
 const { promisify } = require('util');
 const renameAsync = promisify(fs.rename);
 
-const filePath = path.join(process.cwd(), '**/*.{js,php,ts,tsx}');
+const filePath = path.join(process.cwd(), '**/*.{js,php,ts,tsx,scss,json,yml}');
 
 const files = glob.sync(filePath, {
-    ignore: ['**/node_modules/**'],
+    ignore: ['**/node_modules/**', '**/build/**'],
 });
 
 const options = {
@@ -21,6 +21,7 @@ const options = {
         /Akz-Wp-React-Kit/g,
         /Akz_Wp_React_Kit/g,
         /AkzWpReactKit/g,
+        /\.akzwprk/g,
     ],
     to: [
         'your-amazing-plugin-name',/******************** replace with your plugin details */
@@ -30,6 +31,7 @@ const options = {
         'Your-Amazing-Plugin-Name',
         'Your_Amazing_Plugin_Name',
         'YourAmazingPluginName',
+        '.yourprefix',/******************** replace with your CSS prefix */
     ],
     verbose: true,
     dry: false,
@@ -39,7 +41,7 @@ const renamedResults = [];
 async function renamePHPFiles() {
     const renamePromises = files
         .filter((file) => file.endsWith('.php'))
-        .filter((file) => /wp-react-plugin-boilerplate/.test(file))
+        .filter((file) => /akz-wp-react-kit/.test(file))
         .map(async (file) => {
             const dir = path.dirname(file);
             const baseName = path.basename(file);

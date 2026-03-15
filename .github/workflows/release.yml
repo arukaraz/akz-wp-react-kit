@@ -44,14 +44,14 @@ jobs:
         echo "stable-version=${stable_version}" >> $GITHUB_OUTPUT
 
     - name: Compressing deployment files
-      run: zip -r your-amazing-plugin-name-${{ steps.extract-version.outputs.stable-version }}.zip deploy/
+      run: zip -r akz-wp-react-kit-${{ steps.extract-version.outputs.stable-version }}.zip deploy/
 
     - name: Creating the release
       uses: softprops/action-gh-release@v2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        files: your-amazing-plugin-name-${{ steps.extract-version.outputs.stable-version }}.zip
+        files: akz-wp-react-kit-${{ steps.extract-version.outputs.stable-version }}.zip
         tag_name: ${{ steps.extract-version.outputs.stable-version }}
         name: "Release ${{ steps.extract-version.outputs.stable-version }}"
         draft: false

@@ -5,50 +5,23 @@ module.exports = {
   ...defaultConfig,
   entry: {
     admin: path.resolve(__dirname, 'src/admin.tsx'),
+    public: path.resolve(__dirname, 'src/public.ts'),
   },
   resolve: {
     ...defaultConfig.resolve,
-    extensions: ['.js', '.jsx', '.ts', '.tsx', '.scss', '.mjs' , '...'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.scss', '.mjs'],
   },
   module: {
+    ...defaultConfig.module,
     rules: [
-      {
-        test: /\.(js|jsx|ts|tsx)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
-          },
-        },
-      },
-      {
-        test: /\.scss$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'postcss-loader',
-          'sass-loader',
-        ],
-      },
-      {
-        test: /\.css$/, 
-        use: [
-          'style-loader',
-          'css-loader',
-        ],
-      },
-      {
-        test: /\.(png|jpg|jpeg|gif|svg)$/,
-        type: 'asset/resource',
-      },
+      ...defaultConfig.module.rules,
       {
         test: /\.js$/,
         include: /node_modules\/mui-color-input/,
         resolve: {
-            fullySpecified: false,
+          fullySpecified: false,
         },
-    },
+      },
     ],
   },
 };

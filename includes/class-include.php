@@ -1,63 +1,38 @@
-<?php // phpcs:ignore Class file names should be based on the class name with "class-" prepended.
-// Exit if accessed directly.
+<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName -- Legacy naming convention
+
+declare(strict_types=1);
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 /**
- * The common bothend functionality of the plugin.
- *
- * A class definition that includes attributes and functions used across both the
- * public-facing side of the site and the admin area.
- *
- * @since      1.0.0
- *
- * @package    Akz_Wp_React_Kit
- * @subpackage Akz_Wp_React_Kit/includes
- */
-
-/**
- * The common bothend functionality of the plugin.
- *
- * A class definition that includes attributes and functions used across both the
- * public-facing side of the site and the admin area.
+ * Common functionality shared between admin and public areas.
  *
  * @since      1.0.0
  * @package    Akz_Wp_React_Kit
  * @subpackage Akz_Wp_React_Kit/includes
- * @author     @arukaraz 
  */
 class Akz_Wp_React_Kit_Include {
 
 	/**
-	 * Gets an instance of this object.
-	 * Prevents duplicate instances which avoid artifacts and improves performance.
-	 *
-	 * @static
-	 * @access public
-	 * @return object
-	 * @since 1.0.0
+	 * @return static
 	 */
-	public static function get_instance() {
-		// Store the instance locally to avoid private static replication.
+	public static function get_instance(): static {
 		static $instance = null;
 
-		// Only run these methods if they haven't been ran previously.
 		if ( null === $instance ) {
-			$instance = new self();
+			$instance = new static();
 		}
 
-		// Always return the instance.
 		return $instance;
 	}
+
 	/**
-	 * Get the settings with caching.
-	 *
-	 * @access public
-	 * @param string $key optional meta key.
-	 * @return array|null
+	 * @param string $key
+	 * @return array<string, mixed>|string|false
 	 */
-	public function get_settings( $key = '' ) {
+	public function get_settings( string $key = '' ): array|string|false {
 		static $cache = null;
 		if ( ! $cache ) {
 			$cache = akz_wp_react_kit_get_options();
@@ -70,12 +45,9 @@ class Akz_Wp_React_Kit_Include {
 	}
 
 	/**
-	 * Get options related to white label.
-	 *
-	 * @access public
-	 * @return array|null
+	 * @return array<string, mixed>
 	 */
-	public function get_white_label() {
+	public function get_white_label(): array {
 		static $cache = null;
 		if ( ! $cache ) {
 			$cache = akz_wp_react_kit_get_white_label();
@@ -83,26 +55,14 @@ class Akz_Wp_React_Kit_Include {
 
 		return $cache;
 	}
-
-	/**
-	 * Register scripts and styles
-	 *
-	 * @since    1.0.0
-	 * @access   public
-	 * @return void
-	 */
-	public function register_scripts_and_styles() {}
 }
 
 if ( ! function_exists( 'akz_wp_react_kit_include' ) ) {
 	/**
-	 * Return instance of  Akz_Wp_React_Kit_Include class
-	 *
 	 * @since 1.0.0
-	 *
 	 * @return Akz_Wp_React_Kit_Include
 	 */
-	function akz_wp_react_kit_include() {//phpcs:ignore
+	function akz_wp_react_kit_include(): Akz_Wp_React_Kit_Include { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid -- Prefixed helper
 		return Akz_Wp_React_Kit_Include::get_instance();
 	}
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import { ReactNode } from "react";
 
 import Card from "@mui/material/Card";
 import Container from "@mui/material/Container";
@@ -6,9 +6,7 @@ import Container from "@mui/material/Container";
 import Navigation from "./Navigation";
 import ContextProvider from "../../../modules/context";
 
-const TopNavigation = ({ children }) => {
-
-
+const TopNavigation = ({ children }: { children: ReactNode }) => {
   return (
     <Card sx={{ height: '100vh' }}>
       <ContextProvider>
