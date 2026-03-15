@@ -1,24 +1,19 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import {
-  createBrowserRouter,
+  createHashRouter,
   RouterProvider,
 } from "react-router-dom";
 import App from "./admin/App";
 import routes from "./admin/routes";
 
-const router = createBrowserRouter(
-  [
-    {
-      path: `/`,
-      element: <App />,
-      children: routes,
-    },
-  ],
+const router = createHashRouter([
   {
-    basename: `/wp-admin/admin.php`,
-  }
-);
+    path: `/`,
+    element: <App />,
+    children: routes,
+  },
+]);
 
 document.addEventListener('DOMContentLoaded', () => {
   const rootElement = document.getElementById(AkzWpReactKitLocalize.root_id);
