@@ -18,7 +18,7 @@ if ( ! function_exists( 'akz_wp_react_kit_default_options' ) ) :
 	 */
 	function akz_wp_react_kit_default_options(): array {
 		$default_options = array(
-			'deleteAll' => false,
+			'sample_setting' => 'changeme',
 		);
 
 		return apply_filters( 'akz_wp_react_kit_default_options', $default_options );
